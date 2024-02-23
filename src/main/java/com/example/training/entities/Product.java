@@ -1,12 +1,12 @@
 package com.example.training.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "product")
+@Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
@@ -21,12 +21,13 @@ public class Product {
     @Column(nullable = false)
     private Integer Stock;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "product_sale",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "sale_id"))
-    private List<Sales> sales;
+    @JsonIgnore
+    private List<Sale> sales;
 
     public Product() {
     }
@@ -70,8 +71,11 @@ public class Product {
         Stock = stock;
     }
 
-   /* public void setSales(Sales sales) {
+    public List<Sale> getSales(){
+        return sales;
+    }
 
+    public void setSales(List<Sale> sales){
         this.sales = sales;
-    }*/
+    }
 }

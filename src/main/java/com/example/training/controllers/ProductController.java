@@ -1,11 +1,9 @@
 package com.example.training.controllers;
 
-import com.example.training.entities.Costumer;
 import com.example.training.entities.Product;
 import com.example.training.responses.ResponseHandler;
-import com.example.training.services.CostumerService;
 import com.example.training.services.ProductService;
-import com.example.training.services.SalesService;
+import com.example.training.services.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("product")
+@RequestMapping("/product")
 public class ProductController {
     @Autowired
     private ProductService productService;
     @Autowired
-    private SalesService salesService;
+    private SaleService saleService;
 
     @GetMapping()
     public ResponseEntity<Object> findAll(){

@@ -1,9 +1,9 @@
 package com.example.training.controllers;
 
-import com.example.training.entities.Costumer;
-import com.example.training.entities.Sales;
-import com.example.training.services.CostumerService;
-import com.example.training.services.SalesService;
+import com.example.training.entities.Customer;
+import com.example.training.entities.Sale;
+import com.example.training.services.CustomerService;
+import com.example.training.services.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.training.responses.ResponseHandler;
 import org.springframework.http.HttpStatus;
@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("costumer")
-public class CostumerController {
+@RequestMapping("/customer")
+public class CustomerController {
     @Autowired
-    private CostumerService costumerService;
+    private CustomerService customerService;
     @Autowired
-    private SalesService salesService;
+    private SaleService saleService;
 
     @GetMapping()
     public ResponseEntity<Object> findAll(){
 
         try {
 
-            List<Costumer> result = costumerService.findAll();
+            List<Customer> result = customerService.findAll();
 
             return ResponseHandler.generateResponse("Success",HttpStatus.OK,result);
         }catch (Exception e){
@@ -33,9 +33,9 @@ public class CostumerController {
         }
     }
     @PostMapping
-    public ResponseEntity<Object> save(@RequestBody Costumer costumer ){
+    public ResponseEntity<Object> save(@RequestBody Customer customer){
         try {
-            Costumer result = costumerService.save( costumer );
+            Customer result = customerService.save(customer);
 
             return  ResponseHandler.generateResponse("Success", HttpStatus.CREATED,result);
 
@@ -47,12 +47,12 @@ public class CostumerController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable Integer id ){
         try{
-            Costumer costumer = costumerService.findById( id );
-            if( costumer != null ){
+            Customer customer = customerService.findById( id );
+            if( customer != null ){
 
-                costumerService.delete( costumer );
+                customerService.delete(customer);
 
-                return ResponseHandler.generateResponse("Succes",HttpStatus.ACCEPTED, costumer );
+                return ResponseHandler.generateResponse("Succes",HttpStatus.ACCEPTED, customer);
             }
 
             return ResponseHandler.generateResponse("Success Author",HttpStatus.NOT_FOUND, null );
@@ -66,9 +66,9 @@ public class CostumerController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> findById( @PathVariable Integer id ){
         try {
-            Costumer costumer = costumerService.findById( id );
+            Customer customer = customerService.findById( id );
 
-            return  ResponseHandler.generateResponse("Success",HttpStatus.OK,costumer );
+            return  ResponseHandler.generateResponse("Success",HttpStatus.OK, customer);
         }catch (Exception e){
             return  ResponseHandler.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null );
         }
@@ -77,10 +77,10 @@ public class CostumerController {
     @GetMapping("/sales/{id}")
     public ResponseEntity<Object> getBooks(@PathVariable Integer id){
         try{
-            Costumer costumer = costumerService.findById( id );
-            if( costumer != null ){
+            Customer customer = customerService.findById( id );
+            if( customer != null ){
 
-                List<Sales> result = costumerService.getSales( costumer );
+                List<Sale> result = customerService.getSales(customer);
 
                 return ResponseHandler.generateResponse("Succes",HttpStatus.CREATED, result );
             }

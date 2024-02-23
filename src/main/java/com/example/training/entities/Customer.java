@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "costumers")
-public class Costumer implements Serializable{
+@Table(name = "customers")
+public class Customer implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,10 +27,14 @@ public class Costumer implements Serializable{
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "costumer")
-    private List<Sales> sales;
+    @Column(nullable = false)
+    private Long phoneNumber;
 
-    public Costumer() {
+    @OneToMany(mappedBy = "customer")
+    private List<Sale> sales;
+
+
+    public Customer() {
 
         sales = new ArrayList<>();
     }
@@ -56,7 +60,7 @@ public class Costumer implements Serializable{
         this.email = email;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -80,17 +84,16 @@ public class Costumer implements Serializable{
         return email;
     }
 
-    public String getPhoneNumber() {
+    public Long getPhoneNumber() {
         return phoneNumber;
     }
 
-    private String phoneNumber;
 
-    public List<Sales> getSales() {
+    public List<Sale> getSales() {
         return sales;
     }
 
-    public void setSales(List<Sales> sales) {
+    public void setSales(List<Sale> sales) {
         this.sales = sales;
     }
 }

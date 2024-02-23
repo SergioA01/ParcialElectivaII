@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "sales")
-public class Sales {
+public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
     private Integer id;
@@ -19,23 +19,16 @@ public class Sales {
     @Column(nullable = false)
     private Long valorTotal;
 
-    @ManyToMany(mappedBy = "sales")
-    @JsonIgnore
+    @ManyToMany(mappedBy = "sales", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Product> products;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-    @JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_sales_to_costumer"))
+    @JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_sales_to_customer"))
     @JsonIgnore
-    private Costumer costumer;
+    private Customer customer;
 
 
-    public Sales() {
-    }
-
-    public Sales(Integer id, LocalDate fecha, Long valorTotal) {
-        this.id = id;
-        this.fecha = fecha;
-        this.valorTotal = valorTotal;
+    public Sale() {
     }
 
     public Integer getId() {
@@ -62,9 +55,13 @@ public class Sales {
         this.valorTotal = valorTotal;
     }
 
-    public void setCostumer(Costumer costumer) {
+    public void setCustomer(Customer customer) {
 
-        this.costumer = costumer;
+        this.customer = customer;
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 
     public List<Product> getProducts() {
